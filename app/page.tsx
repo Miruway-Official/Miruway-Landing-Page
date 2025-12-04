@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, Zap, Dices, Tv, ShieldCheck, Globe, Users, Gamepad2, Sparkles, Target, Rocket } from "lucide-react";
+import { ArrowRight, Zap, Dices, Tv, ShieldCheck, Globe, Users, Gamepad2, Sparkles } from "lucide-react";
 import { motion, Variants } from "framer-motion";
 import scrollToSection from "@/lib/scrollToSection";
 
@@ -245,8 +245,8 @@ export default function CompanyLandingPage() {
                     </span>
                 </h1>
                 <p className="text-xl text-slate-400 leading-relaxed max-w-2xl mx-auto">
-                    เราคือ Tech Company สัญชาติไทย ผู้บุกเบิกแพลตฟอร์มบริการด้านเกมและ Lifestyle 
-                    ด้วยความเชื่อที่ว่า "ความสุขในโลกดิจิทัล ควรเข้าถึงได้ง่ายและไร้ขีดจำกัด"
+                    เราคือ Tech Company สัญชาติไทย ผู้บุกเบิกแพลตฟอร์มบริการด้านเกมและ Lifestyle
+                    ด้วยความเชื่อที่ว่า &ldquo;ความสุขในโลกดิจิทัล ควรเข้าถึงได้ง่ายและไร้ขีดจำกัด&rdquo;
                 </p>
               </motion.div>
 
