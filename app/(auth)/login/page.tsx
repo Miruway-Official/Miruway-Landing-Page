@@ -1,4 +1,7 @@
+"use client"
+
 import { LoginForm } from "@/components/login-form"
+import { motion } from "framer-motion"
 
 export default function LoginPage() {
   return (
@@ -7,9 +10,14 @@ export default function LoginPage() {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-purple-600/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[100px] pointer-events-none" />
       
-      <div className="w-full max-w-sm md:max-w-4xl relative z-10">
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="w-full max-w-sm md:max-w-4xl relative z-10"
+      >
         <LoginForm />
-      </div>
+      </motion.div>
     </div>
   )
 }

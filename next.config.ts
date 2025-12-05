@@ -12,10 +12,8 @@ const nextConfig = {
   },
 
   experimental: {
-    // Enable filesystem caching for `next dev`
-    turbopackFileSystemCacheForDev: true,
-    // Enable filesystem caching for `next build`
-    turbopackFileSystemCacheForBuild: true,
+    // Turbopack is automatically used in Next.js 15+ for dev mode
+    // No additional configuration needed for filesystem caching
   },
 
   // Image optimization

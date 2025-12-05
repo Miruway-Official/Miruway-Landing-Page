@@ -1,4 +1,7 @@
+"use client"
+
 import { SignupForm } from "@/components/signup-form"
+import { motion } from "framer-motion"
 
 export default function SignupPage() {
   return (
@@ -7,9 +10,14 @@ export default function SignupPage() {
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-pink-600/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[100px] pointer-events-none" />
 
-      <div className="w-full max-w-sm md:max-w-4xl relative z-10">
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="w-full max-w-sm md:max-w-4xl relative z-10"
+      >
         <SignupForm />
-      </div>
+      </motion.div>
     </div>
   )
 }
