@@ -22,16 +22,13 @@ jobs:
   # ==========================================
   test:
     name: 🧪 Test & Lint
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       - name: 📥 Checkout code
         uses: actions/checkout@v4
-
-      - name: 🍞 Setup Bun
-        uses: oven-sh/setup-bun@v2
         with:
-          bun-version: latest
+          clean: true
 
       - name: 📦 Install dependencies
         run: bun install --no-save --frozen-lockfile
@@ -48,13 +45,19 @@ jobs:
         run: bun run test
         continue-on-error: true
 
+      - name: 🗑️ Cleanup files
+        if: always()
+        run: |
+          rm -rf node_modules .next
+          git clean -fdx
   # ==========================================
   # Job 2: Build Docker Image
   # ==========================================
   build:
     name: 🏗️ Build Docker Image
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: test
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
 
     steps:
       - name: 📥 Checkout code
@@ -91,6 +94,12 @@ jobs:
           name: docker-image
           path: image.tar.gz
           retention-days: 1
+
+      - name: 🗑️ Cleanup files
+        if: always()
+        run: |
+          rm -rf node_modules .next
+          git clean -fdx
 
   # ==========================================
   # Job 3: Deploy (Self-hosted Runner)
@@ -132,4 +141,20 @@ jobs:
 
       - name: 🧹 Cleanup old images
         run: |
-          docker image prune -af --filter "until=24h"
+          docker image prune -af --filter "until=6h"
+
+      - name: 🗑️ Cleanup artifact file
+        run: |
+          rm -f image.tar.gz
+
+      - name: 🗑️ Delete artifact from GitHub
+        uses: geekyeggo/delete-artifact@v5
+        with:
+          name: docker-image
+          failOnError: false
+
+      - name: 🗑️ Cleanup files
+        if: always()
+        run: |
+          rm -rf node_modules .next
+          git clean -fdx
