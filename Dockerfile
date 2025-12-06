@@ -11,6 +11,7 @@ WORKDIR /app
 # Stage 1: Dependencies
 # ==========================================
 FROM base AS deps
+RUN apk add --no-cache libc6-compat
 COPY package.json bun.lockb* ./
 RUN bun install --no-save --frozen-lockfile
 
