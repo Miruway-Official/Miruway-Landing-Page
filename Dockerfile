@@ -11,7 +11,7 @@ WORKDIR /app
 # Stage 1: Dependencies
 # ==========================================
 FROM base AS deps
-RUN apk add --no-cache libc6-compat
+RUN apt-get update && apt-get install -y --no-install-recommends libc6 && rm -rf /var/lib/apt/lists/*
 COPY package.json bun.lockb* ./
 RUN bun install --no-save --frozen-lockfile
 
@@ -22,7 +22,7 @@ FROM base AS builder
 WORKDIR /app
 
 # Install dependencies for native modules
-RUN apk add --no-cache libc6-compat
+RUN apt-get update && apt-get install -y --no-install-recommends libc6 && rm -rf /var/lib/apt/lists/*
 
 # Copy dependencies from deps stage
 COPY --from=deps /app/node_modules ./node_modules
@@ -48,11 +48,11 @@ ENV PORT=6095
 ENV HOSTNAME="0.0.0.0"
 
 # Install runtime dependencies
-RUN apk add --no-cache libc6-compat wget
+RUN apt-get update && apt-get install -y --no-install-recommends libc6 wget && rm -rf /var/lib/apt/lists/*
 
 # Create non-root user for security
-RUN addgroup --system --gid 1001 nodejs && \
-    adduser --system --uid 1001 nextjs
+RUN groupadd --system --gid 1001 nodejs && \
+    useradd --system --uid 1001 --gid nodejs nextjs
 
 # Copy necessary files from builder
 COPY --from=builder /app/public ./public
