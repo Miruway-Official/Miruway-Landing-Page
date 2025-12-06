@@ -3,23 +3,21 @@
 # Next.js 15 + Bun Runtime
 # ==========================================
 
-# Stage 1: Dependencies
-FROM oven/bun:1.1-alpine AS deps
+# Use Bun's official image
+FROM oven/bun:1 AS base
 WORKDIR /app
 
-# Install dependencies for native modules
-RUN apk add --no-cache libc6-compat
-
-# Copy package files
+# ==========================================
+# Stage 1: Dependencies
+# ==========================================
+FROM base AS deps
 COPY package.json bun.lockb* ./
-
-# Install dependencies
 RUN bun install --no-save --frozen-lockfile
 
 # ==========================================
 # Stage 2: Builder
 # ==========================================
-FROM oven/bun:1.1-alpine AS builder
+FROM base AS builder
 WORKDIR /app
 
 # Install dependencies for native modules
@@ -39,7 +37,7 @@ RUN bun run build
 # ==========================================
 # Stage 3: Runner (Production)
 # ==========================================
-FROM oven/bun:1.1-alpine AS runner
+FROM base AS runner
 WORKDIR /app
 
 # Set environment variables
