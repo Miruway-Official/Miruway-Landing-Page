@@ -118,6 +118,11 @@ jobs:
         run: |
           gunzip -c image.tar.gz | docker load
 
+      - name: 🔍 Check environment variables
+        run: |
+          echo "API_URL_AUTH is set: ${{ secrets.API_URL_AUTH != '' }}"
+          echo "LANDING_PAGE_URL is set: ${{ secrets.LANDING_PAGE_URL != '' }}"
+
       - name: 🛑 Stop existing container
         run: |
           docker stop ${{ env.CONTAINER_NAME }} || true
@@ -130,9 +135,12 @@ jobs:
             --restart unless-stopped \
             -p ${{ env.APP_PORT }}:6095 \
             -e NODE_ENV=production \
-            -e API_URL_AUTH=${{ secrets.API_URL_AUTH }} \
-            -e FRONTEND_URL=${{ secrets.LANDING_PAGE_URL }} \
+            -e API_URL_AUTH="${{ secrets.API_URL_AUTH }}" \
+            -e FRONTEND_URL="${{ secrets.LANDING_PAGE_URL }}" \
             ${{ env.DOCKER_IMAGE_NAME }}:${{ github.sha }}
+        env:
+          API_URL_AUTH: ${{ secrets.API_URL_AUTH }}
+          FRONTEND_URL: ${{ secrets.LANDING_PAGE_URL }}
 
       - name: ✅ Health check
         run: |
