@@ -49,7 +49,6 @@ jobs:
         if: always()
         run: |
           rm -rf node_modules .next
-          git clean -fdx
   # ==========================================
   # Job 2: Build Docker Image
   # ==========================================
@@ -99,7 +98,6 @@ jobs:
         if: always()
         run: |
           rm -rf node_modules .next
-          git clean -fdx
 
   # ==========================================
   # Job 3: Deploy (Self-hosted Runner)
@@ -132,6 +130,8 @@ jobs:
             --restart unless-stopped \
             -p ${{ env.APP_PORT }}:6095 \
             -e NODE_ENV=production \
+            -e API_URL_AUTH=${{ secrets.API_URL_AUTH }} \
+            -e FRONTEND_URL=${{ secrets.LANDING_PAGE_URL }} \
             ${{ env.DOCKER_IMAGE_NAME }}:${{ github.sha }}
 
       - name: ✅ Health check
@@ -156,6 +156,4 @@ jobs:
       - name: 🗑️ Cleanup files
         if: always()
         run: |
-          cd ..
-          rm -rf Miruway-Landing-Page
-          git clean -fdx
+          rm -f image.tar.gz
