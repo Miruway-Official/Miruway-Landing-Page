@@ -11,7 +11,7 @@ WORKDIR /app
 # Stage 1: Dependencies
 # ==========================================
 FROM base AS deps
-RUN apt-get update && apt-get install -y --no-install-recommends libc6 && rm -rf /var/lib/apt/lists/*
+# RUN apt-get update && apt-get install -y --no-install-recommends libc6 && rm -rf /var/lib/apt/lists/*
 COPY package.json bun.lockb* ./
 RUN bun install --no-save --frozen-lockfile
 
@@ -22,7 +22,7 @@ FROM base AS builder
 WORKDIR /app
 
 # Install dependencies for native modules
-RUN apt-get update && apt-get install -y --no-install-recommends libc6 && rm -rf /var/lib/apt/lists/*
+# RUN apt-get update && apt-get install -y --no-install-recommends libc6 && rm -rf /var/lib/apt/lists/*
 
 # Copy dependencies from deps stage
 COPY --from=deps /app/node_modules ./node_modules
@@ -48,11 +48,11 @@ ENV PORT=6095
 ENV HOSTNAME="0.0.0.0"
 
 # Install runtime dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends libc6 wget && rm -rf /var/lib/apt/lists/*
+# RUN apt-get update && apt-get install -y --no-install-recommends libc6 wget && rm -rf /var/lib/apt/lists/*
 
 # Create non-root user for security
-RUN groupadd --system --gid 1001 nodejs && \
-    useradd --system --uid 1001 --gid nodejs nextjs
+RUN groupadd --system --gid 1001 builder && \
+    useradd --system --uid 1001 --gid builder nextjsbuilder
 
 # Copy necessary files from builder
 COPY --from=builder /app/public ./public
@@ -60,13 +60,15 @@ COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 
 # Set correct permissions
-RUN chown -R nextjs:nodejs /app
+RUN chown -R nextjsbuilder:builder /app
 
 # Switch to non-root user
-USER nextjs
+USER nextjsbuilder
 
 # Expose port
 EXPOSE 6095
+
+RUN which wget
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \

@@ -2,6 +2,10 @@
 # Miru Way Landing Page - Docker Compose
 # Local Development & Production
 # ==========================================
+#
+# Resource Allocation (VPS: 4 CPU / 8GB RAM)
+# - Web Landing Page: 0.5 CPU / 1GB RAM
+# ==========================================
 
 services:
   # ==========================================
@@ -17,7 +21,17 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=6095
+      - API_URL_AUTH=${API_URL_AUTH}
+      - FRONTEND_URL=${FRONTEND_URL}
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 512M
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:6095/api/health"]
       interval: 30s

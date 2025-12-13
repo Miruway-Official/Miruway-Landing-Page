@@ -80,7 +80,7 @@ export default function NavbarLanding() {
 
         {/* Action Button: Enter Shop */}
         <motion.div variants={itemVariants} className="flex items-center gap-4">
-          <Link href="/auth" className="hidden sm:block text-sm text-slate-300 hover:text-white transition-colors font-medium whitespace-nowrap">
+          <Link href="/login" className="hidden sm:block text-sm text-slate-300 hover:text-white transition-colors font-medium whitespace-nowrap">
              เข้าสู่ระบบ
           </Link>
           <Link href="/shop">
