@@ -6,8 +6,9 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-prompt), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -16,11 +17,13 @@
   --color-sidebar-primary: var(--sidebar-primary);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar: var(--sidebar);
+
   --color-chart-5: var(--chart-5);
   --color-chart-4: var(--chart-4);
   --color-chart-3: var(--chart-3);
   --color-chart-2: var(--chart-2);
   --color-chart-1: var(--chart-1);
+
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
@@ -37,106 +40,70 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-/* Light Mode (Optional - ไว้เผื่อใช้ แต่ธีมหลักเราคือ Dark) */
-.dark {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.141 0.005 285.823);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.141 0.005 285.823);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.141 0.005 285.823);
-  --primary: oklch(0.623 0.214 291.155);
-  /* Mystic Purple */
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.967 0.001 286.375);
-  --secondary-foreground: oklch(0.21 0.006 285.885);
-  --muted: oklch(0.967 0.001 286.375);
-  --muted-foreground: oklch(0.552 0.016 285.938);
-  --accent: oklch(0.967 0.001 286.375);
-  --accent-foreground: oklch(0.21 0.006 285.885);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.92 0.004 286.32);
-  --input: oklch(0.92 0.004 286.32);
-  --ring: oklch(0.623 0.214 291.155);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.141 0.005 285.823);
-  --sidebar-primary: oklch(0.623 0.214 291.155);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.967 0.001 286.375);
-  --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
-  --sidebar-border: oklch(0.92 0.004 286.32);
-  --sidebar-ring: oklch(0.623 0.214 291.155);
-}
-
-/* Dark Mode (Mystic Luxury Theme) */
+/* User Color Preset: #8c2e5f,#f56cb9,#f39fd0,#753ca2,#0f0d20 */
 :root {
-  /* พื้นหลังสีม่วงเข้มเกือบดำ (Deep Night) */
-  --background: oklch(0.12 0.04 275);
-  --foreground: oklch(0.985 0 0);
+  /* Background: #0f0d20 (Deep Dark Purple) */
+  --background: #0f0d20;
+  --foreground: #ffffff;
 
-  /* การ์ดสีเข้มขึ้นเล็กน้อยให้ดูมีมิติ */
-  --card: oklch(0.15 0.04 275);
-  --card-foreground: oklch(0.985 0 0);
+  /* Card/Surface: Slightly lighter than bg */
+  --card: #1a1630;
+  --card-foreground: #ffffff;
 
-  --popover: oklch(0.15 0.04 275);
-  --popover-foreground: oklch(0.985 0 0);
+  --popover: #1a1630;
+  --popover-foreground: #ffffff;
 
-  /* Primary: สีม่วงนีออนสว่าง (Neon Purple) */
-  --primary: oklch(0.65 0.25 290);
-  --primary-foreground: oklch(0.985 0 0);
+  /* Primary: #8c2e5f (Berry) */
+  --primary: #8c2e5f;
+  --primary-foreground: #ffffff;
 
-  /* Secondary: สีน้ำเงินเข้มอมม่วง */
-  --secondary: oklch(0.25 0.08 275);
-  --secondary-foreground: oklch(0.985 0 0);
+  /* Secondary: #753ca2 (Purple) */
+  --secondary: #753ca2;
+  --secondary-foreground: #ffffff;
 
-  --muted: oklch(0.20 0.06 275);
-  --muted-foreground: oklch(0.70 0.04 280);
+  /* Muted */
+  --muted: #2d2a45;
+  --muted-foreground: #a1a1aa;
 
-  /* Accent: ใช้เวลากดปุ่ม หรือ Hover (สีม่วงกลาง) */
-  --accent: oklch(0.25 0.08 275);
-  --accent-foreground: oklch(0.985 0 0);
+  /* Accent: #f56cb9 (Neon Pink) */
+  --accent: #f56cb9;
+  --accent-foreground: #0f0d20;
 
-  --destructive: oklch(0.60 0.20 20);
-  /* Red */
+  /* Highlight (Custom): #f39fd0 (Soft Pink) */
+  --highlight: #f39fd0;
 
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.65 0.25 290);
-  /* วงแหวน focus เป็นสีม่วง */
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
 
-  /* Chart Colors (Neon Palette) */
-  --chart-1: oklch(0.65 0.25 290);
-  /* Purple */
-  --chart-2: oklch(0.60 0.20 330);
-  /* Pink */
-  --chart-3: oklch(0.70 0.15 250);
-  /* Blue */
-  --chart-4: oklch(0.85 0.15 85);
-  /* Gold */
-  --chart-5: oklch(0.60 0.20 15);
-  /* Orange */
+  --border: rgba(255, 255, 255, 0.1);
+  --input: rgba(255, 255, 255, 0.1);
+  --ring: #f56cb9;
 
-  /* Sidebar (ใช้สีเดียวกับ Card) */
-  --sidebar: oklch(0.15 0.04 275);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.65 0.25 290);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.25 0.08 275);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.65 0.25 290);
+  --radius: 0.75rem;
+
+  /* Chart Colors */
+  --chart-1: #f56cb9;
+  --chart-2: #8c2e5f;
+  --chart-3: #753ca2;
+  --chart-4: #f39fd0;
+  --chart-5: #0f0d20;
+
+  /* Sidebar */
+  --sidebar: #0f0d20;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #f56cb9;
+  --sidebar-primary-foreground: #0f0d20;
+  --sidebar-accent: #1a1630;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: rgba(255, 255, 255, 0.1);
+  --sidebar-ring: #f56cb9;
 }
 
 @layer base {
@@ -145,20 +112,50 @@
   }
 
   body {
-    @apply bg-background text-foreground;
-    /* เพิ่ม Gradient พื้นหลังเพื่อให้เหมือนดีไซน์ Mystic */
-    background-image: radial-gradient(circle at 50% 0%, oklch(0.25 0.12 280 / 0.4) 0%, transparent 70%);
+    @apply bg-background text-foreground font-sans;
+    /* Rich Gradient Background based on preset */
+    background-image:
+      radial-gradient(circle at 10% 20%, rgba(140, 46, 95, 0.3) 0%, transparent 40%), /* #8c2e5f */
+      radial-gradient(circle at 90% 80%, rgba(117, 60, 162, 0.3) 0%, transparent 40%), /* #753ca2 */
+      radial-gradient(circle at 50% 50%, #0f0d20 0%, transparent 100%);
     background-attachment: fixed;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading tracking-tight;
   }
 }
 
-/* Custom Utilities สำหรับ Glassmorphism */
 @layer utilities {
   .glass {
-    @apply bg-slate-950/40 backdrop-blur-md border border-white/10 shadow-xl;
+    @apply bg-black/20 backdrop-blur-xl border border-white/10 shadow-xl;
   }
 
-  .text-gradient-gold {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 via-orange-300 to-yellow-500;
+  .glass-card {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
+    @apply backdrop-blur-md border border-white/10;
+  }
+  
+  .glass-button {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .text-gradient-pink {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[--primary] to-[--accent];
+  }
+
+  .text-gradient-purple {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[--secondary] to-[--highlight];
+  }
+  
+  .glow-text {
+    text-shadow: 0 0 20px var(--accent);
+  }
+  
+  .glow-box {
+    box-shadow: 0 0 20px rgba(245, 108, 185, 0.3); /* Accent color glow */
   }
 }

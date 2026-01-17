@@ -1,10 +1,18 @@
 import type { Metadata } from "next";
-import { Kanit } from "next/font/google";
+import { Outfit, Prompt } from "next/font/google"; // Modern & Wow + Clean Thai
 import "./globals.css";
 
-const kanit = Kanit({
+const outfit = Outfit({
+  subsets: ["latin"],
+  variable: "--font-outfit",
+  display: "swap",
+});
+
+const prompt = Prompt({
   subsets: ["latin", "thai"],
-  weight: ["300", "400", "500", "600", "700"]
+  weight: ["300", "400", "500", "600"],
+  variable: "--font-prompt",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -20,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${kanit.className} antialiased`}
+        className={`${outfit.variable} ${prompt.variable} font-sans antialiased`}
       >
         {children}
       </body>
