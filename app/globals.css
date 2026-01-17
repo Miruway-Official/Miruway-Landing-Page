@@ -47,63 +47,67 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-/* User Color Preset: #8c2e5f,#f56cb9,#f39fd0,#753ca2,#0f0d20 */
+/* Base Variables - Dark Mode Only (Primary Theme) */
 :root {
-  /* Background: #0f0d20 (Deep Dark Purple) */
-  --background: #0f0d20;
-  --foreground: #ffffff;
+  /* Deep Void Purple Background */
+  --background: oklch(9.4% 0.057 282.88);
+  --foreground: oklch(0.98 0.01 280);
 
-  /* Card/Surface: Slightly lighter than bg */
-  --card: #1a1630;
-  --card-foreground: #ffffff;
+  /* Card/Surface - Slightly Lighter Void */
+  --card: oklch(14% 0.06 280);
+  --card-foreground: oklch(0.98 0.01 280);
 
-  --popover: #1a1630;
-  --popover-foreground: #ffffff;
+  --popover: oklch(12% 0.06 280);
+  --popover-foreground: oklch(0.98 0.01 280);
 
-  /* Primary: #8c2e5f (Berry) */
-  --primary: #8c2e5f;
-  --primary-foreground: #ffffff;
+  /* Primary: Berry Pink #8c2e5f */
+  --primary: oklch(37.47% 0.177 348.98);
+  --primary-foreground: oklch(0.98 0 0);
 
-  /* Secondary: #753ca2 (Purple) */
-  --secondary: #753ca2;
-  --secondary-foreground: #ffffff;
+  /* Secondary: Deep Purple #753ca2 */
+  --secondary: oklch(38.07% 0.169 308.24);
+  --secondary-foreground: oklch(0.98 0 0);
 
   /* Muted */
-  --muted: #2d2a45;
-  --muted-foreground: #a1a1aa;
+  --muted: oklch(20% 0.04 280);
+  --muted-foreground: oklch(70% 0.02 280);
 
-  /* Accent: #f56cb9 (Neon Pink) */
-  --accent: #f56cb9;
-  --accent-foreground: #0f0d20;
+  /* Accent: Neon Pink #f56cb9 */
+  --accent: oklch(73.59% 0.176 342.36);
+  --accent-foreground: oklch(9.4% 0.057 282.88);
 
-  /* Highlight (Custom): #f39fd0 (Soft Pink) */
-  --highlight: #f39fd0;
+  /* Highlight: Soft Pink #f39fd0 (Optional use) */
+  --highlight: oklch(83.17% 0.108 344.66);
 
-  --destructive: #ef4444;
-  --destructive-foreground: #ffffff;
+  --destructive: oklch(0.577 0.245 27.325);
 
-  --border: rgba(255, 255, 255, 0.1);
-  --input: rgba(255, 255, 255, 0.1);
-  --ring: #f56cb9;
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 10%);
+  --ring: oklch(73.59% 0.176 342.36);
+  /* Ring color matches Accent */
 
   --radius: 0.75rem;
 
-  /* Chart Colors */
-  --chart-1: #f56cb9;
-  --chart-2: #8c2e5f;
-  --chart-3: #753ca2;
-  --chart-4: #f39fd0;
-  --chart-5: #0f0d20;
+  /* Chart Colors (Adapted to new palette) */
+  --chart-1: oklch(73.59% 0.176 342.36);
+  /* Neon Pink */
+  --chart-2: oklch(37.47% 0.177 348.98);
+  /* Berry */
+  --chart-3: oklch(38.07% 0.169 308.24);
+  /* Purple */
+  --chart-4: oklch(83.17% 0.108 344.66);
+  /* Soft Pink */
+  --chart-5: oklch(60% 0.15 320);
 
   /* Sidebar */
-  --sidebar: #0f0d20;
-  --sidebar-foreground: #ffffff;
-  --sidebar-primary: #f56cb9;
-  --sidebar-primary-foreground: #0f0d20;
-  --sidebar-accent: #1a1630;
-  --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: rgba(255, 255, 255, 0.1);
-  --sidebar-ring: #f56cb9;
+  --sidebar: oklch(9.4% 0.057 282.88);
+  --sidebar-foreground: oklch(0.98 0.01 280);
+  --sidebar-primary: oklch(73.59% 0.176 342.36);
+  --sidebar-primary-foreground: oklch(9.4% 0.057 282.88);
+  --sidebar-accent: oklch(14% 0.06 280);
+  --sidebar-accent-foreground: oklch(0.98 0.01 280);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(73.59% 0.176 342.36);
 }
 
 @layer base {
@@ -113,15 +117,16 @@
 
   body {
     @apply bg-background text-foreground font-sans;
-    /* Rich Gradient Background based on preset */
-    background-image:
-      radial-gradient(circle at 10% 20%, rgba(140, 46, 95, 0.3) 0%, transparent 40%), /* #8c2e5f */
-      radial-gradient(circle at 90% 80%, rgba(117, 60, 162, 0.3) 0%, transparent 40%), /* #753ca2 */
-      radial-gradient(circle at 50% 50%, #0f0d20 0%, transparent 100%);
-    background-attachment: fixed;
+    /* Clean background to allow AnimatedBackground to shine */
+    /* Only subtle base color, removing complex gradients from body */
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-heading tracking-tight;
   }
 }
@@ -132,15 +137,8 @@
   }
 
   .glass-card {
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
+    background: linear-gradient(145deg, oklch(1 1 1 / 0.05), oklch(1 1 1 / 0.01));
     @apply backdrop-blur-md border border-white/10;
-  }
-  
-  .glass-button {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   }
 
   .text-gradient-pink {
@@ -150,12 +148,15 @@
   .text-gradient-purple {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-[--secondary] to-[--highlight];
   }
-  
-  .glow-text {
-    text-shadow: 0 0 20px var(--accent);
+
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
   }
   
-  .glow-box {
-    box-shadow: 0 0 20px rgba(245, 108, 185, 0.3); /* Accent color glow */
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .scrollbar-none {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
   }
 }

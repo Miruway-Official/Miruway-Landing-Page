@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Outfit, Prompt } from "next/font/google"; // Modern & Wow + Clean Thai
 import "./globals.css";
+import { BarbaProvider } from "@/components/barba-provider";
+import { AnimatedBackground } from "@/components/animated-background";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -28,9 +30,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${outfit.variable} ${prompt.variable} font-sans antialiased`}
+        className={`${outfit.variable} ${prompt.variable} font-sans antialiased relative`}
       >
-        {children}
+        <AnimatedBackground />
+        <BarbaProvider>
+            {children}
+        </BarbaProvider>
       </body>
     </html>
   );
