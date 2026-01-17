@@ -1,12 +1,5 @@
 # ===========================================
-# Git & Version Control
-# ===========================================
-.git
-.gitignore
-.gitattributes
-
-# ===========================================
-# Dependencies (will be installed in container)
+# Dependencies
 # ===========================================
 node_modules
 .pnp
@@ -14,7 +7,7 @@ node_modules
 .yarn/install-state.gz
 
 # ===========================================
-# Build Outputs (will be built in container)
+# Build & Production
 # ===========================================
 .next
 out
@@ -26,19 +19,9 @@ dist
 # ===========================================
 coverage
 .nyc_output
-__tests__
-*.test.ts
-*.test.tsx
-*.spec.ts
-*.spec.tsx
-jest.config.*
-vitest.config.*
-playwright.config.*
-cypress
-.cypress
 
 # ===========================================
-# Environment Variables (use Docker secrets)
+# Environment Variables
 # ===========================================
 .env
 .env.local
@@ -55,13 +38,14 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 bun-debug.log*
-*.log
 
 # ===========================================
 # IDE & Editor
 # ===========================================
 .idea
-.vscode
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
 *.swp
 *.swo
 *~
@@ -74,39 +58,20 @@ Thumbs.db
 Desktop.ini
 
 # ===========================================
-# CI/CD
+# TypeScript
 # ===========================================
-.github
-.gitlab-ci.yml
-.circleci
-.travis.yml
-azure-pipelines.yml
+*.tsbuildinfo
+next-env.d.ts
 
 # ===========================================
-# Documentation (reduce image size)
+# Vercel
 # ===========================================
-README.md
-CHANGELOG.md
-CONTRIBUTING.md
-LICENSE
-docs
-*.md
+.vercel
 
 # ===========================================
-# Docker Files (prevent recursive include)
+# Turbopack & Turborepo
 # ===========================================
-Dockerfile*
-docker-compose*
-.docker
-.dockerignore
-
-# ===========================================
-# AI/Agent Configs (not needed in production)
-# ===========================================
-.claude
-.cursor
-.toh
-.ai
+.turbo
 
 # ===========================================
 # Security
@@ -117,22 +82,18 @@ docker-compose*
 *.p12
 
 # ===========================================
-# Vercel & Deployment Configs
+# AI/Agent Configs
 # ===========================================
-.vercel
-vercel.json
-netlify.toml
-
-# ===========================================
-# Turbopack & Turborepo
-# ===========================================
-.turbo
-turbo.json
+.claude
+.cursor
+.toh
+.ai
+*.cursorrules
 
 # ===========================================
 # Misc
 # ===========================================
+*.log
 .cache
 .temp
 .tmp
-*.tsbuildinfo
