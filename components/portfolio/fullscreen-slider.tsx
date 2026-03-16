@@ -146,7 +146,7 @@ export function FullscreenSlider({
   const currentProject = projects[currentIndex]
 
   return (
-    <div className="relative h-screen w-screen overflow-hidden bg-black">
+    <div className="relative h-screen w-full overflow-hidden bg-transparent">
       {/* Floating Shapes Background */}
       {showFloatingShapes && <FloatingShapes />}
 
@@ -172,49 +172,6 @@ export function FullscreenSlider({
           onSelect={goToSlide}
         />
       )}
-
-      {/* Header - Logo and Profile */}
-      <motion.header
-        className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-6 py-6"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5 }}
-      >
-        <div className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-accent" />
-          <span className="text-xs text-white/60 tracking-wider">NESJAA ©2024</span>
-        </div>
-        <button className="text-xs text-white/60 tracking-wider hover:text-accent transition-colors uppercase">
-          Profile
-        </button>
-      </motion.header>
-
-      {/* View Website Link */}
-      <motion.div
-        className="fixed bottom-6 left-6 z-50"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.8 }}
-      >
-        <a 
-          href={currentProject.link}
-          className="flex items-center gap-2 text-xs text-white/40 hover:text-accent transition-colors tracking-wider uppercase"
-        >
-          <svg className="w-4 h-4 rotate-[-45deg]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M5 12h14M12 5l7 7-7 7" />
-          </svg>
-          View Website
-        </a>
-      </motion.div>
-
-      {/* Switch Color Button (decorative) */}
-      <motion.button
-        className="fixed bottom-6 right-6 z-50 w-6 h-6 rounded-full border border-accent/30 hover:border-accent/60 hover:bg-accent/10 transition-colors"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.9 }}
-        aria-label="Switch Color"
-      />
     </div>
   )
 }

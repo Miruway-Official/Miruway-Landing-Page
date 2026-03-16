@@ -1,8 +1,8 @@
 "use client"
 
 import { ReactNode } from "react"
-import { motion } from "framer-motion"
 import { cn } from "@/lib/utils"
+import { SmoothScrollProvider } from "@/components/smooth-scroll-provider"
 
 interface SlideContainerProps {
   children: ReactNode
@@ -11,14 +11,16 @@ interface SlideContainerProps {
 
 export function SlideContainer({ children, className }: SlideContainerProps) {
   return (
-    <main 
-      className={cn(
-        "h-screen w-full overflow-y-scroll snap-y snap-mandatory scroll-smooth",
-        "scrollbar-none", // You might want to hide scrollbar via CSS or utility
-        className
-      )}
-    >
-      {children}
-    </main>
+    <SmoothScrollProvider>
+      <main 
+        className={cn(
+          "min-h-screen w-full bg-black",
+          "scrollbar-none",
+          className
+        )}
+      >
+        {children}
+      </main>
+    </SmoothScrollProvider>
   )
 }

@@ -9,6 +9,7 @@ import { Contact } from "@/components/features/contact"
 import { Navbar } from "@/components/navbar"
 import { LoadingScreen } from "@/components/loading-screen"
 import { FullscreenSlider } from "@/components/portfolio/fullscreen-slider"
+import { FloatingShapes } from "@/components/effects/floating-shapes"
 import { motion, AnimatePresence } from "framer-motion"
 
 export default function Home() {
@@ -41,10 +42,13 @@ export default function Home() {
         {isLoading && (
           <LoadingScreen 
             onComplete={handleLoadingComplete} 
-            duration={2.5}
+            duration={1.8}
           />
         )}
       </AnimatePresence>
+
+      {/* Global Floating Shapes Background - Visible on ALL sections */}
+      <FloatingShapes />
 
       {/* Main Content */}
       <motion.div
@@ -56,30 +60,28 @@ export default function Home() {
           <Navbar />
         </div>
         
-        <SlideContainer className="bg-black">
+        <SlideContainer>
           
           {/* Slide 1: Hero */}
-          <SlideSection id="hero" className="bg-black">
+          <SlideSection id="hero">
             <Hero />
           </SlideSection>
 
           {/* Slide 2: Tech Stack */}
-          <SlideSection id="tech" className="bg-black">
+          <SlideSection id="tech">
             <TechStack />
           </SlideSection>
 
           {/* Slide 3: Portfolio - Fullscreen Slider */}
-          <SlideSection id="portfolio" className="bg-black p-0!">
-            <div className="w-full h-screen">
-              <FullscreenSlider 
-                showFloatingShapes={true}
-                autoPlay={false}
-              />
-            </div>
+          <SlideSection id="portfolio" fullWidth>
+            <FullscreenSlider 
+              showFloatingShapes={false}
+              autoPlay={false}
+            />
           </SlideSection>
 
           {/* Slide 4: Contact */}
-          <SlideSection id="contact" className="bg-linear-to-b from-black to-primary/10">
+          <SlideSection id="contact">
             <Contact />
           </SlideSection>
 

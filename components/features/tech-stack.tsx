@@ -1,116 +1,441 @@
 "use client"
 
-import { Card } from "@/components/ui/card"
-import { motion } from "framer-motion"
-import { 
-  Code2, 
-  Database, 
-  Layout, 
-  Server, 
-  Settings, 
-  Smartphone,
-  Globe,
-  Palette,
-  Terminal
-} from "lucide-react"
+import { motion, Variants, useMotionValue, useSpring, useTransform } from "framer-motion"
+import { Sparkles, Code2, Database, Wrench } from "lucide-react"
+import { useRef, useState, type JSX } from "react"
+import { Marquee } from "@/components/ui/marquee"
+
+// Tech Icons as SVG components
+const TechIcons = {
+  react: () => (
+    <svg viewBox="0 0 24 24" className="w-8 h-8 fill-current">
+      <path d="M14.23 12.004a2.236 2.236 0 0 1-2.235 2.236 2.236 2.236 0 0 1-2.236-2.236 2.236 2.236 0 0 1 2.235-2.236 2.236 2.236 0 0 1 2.236 2.236zm2.648-10.69c-1.346 0-3.107.96-4.888 2.622-1.78-1.653-3.542-2.602-4.887-2.602-.41 0-.783.093-1.106.278-1.375.793-1.683 3.264-.973 6.365C1.98 8.917 0 10.42 0 12.004c0 1.59 1.99 3.097 5.043 4.03-.704 3.113-.39 5.588.988 6.38.32.187.69.275 1.102.275 1.345 0 3.107-.96 4.888-2.624 1.78 1.654 3.542 2.603 4.887 2.603.41 0 .783-.09 1.106-.275 1.374-.792 1.683-3.263.973-6.365C22.02 15.096 24 13.59 24 12.004c0-1.59-1.99-3.097-5.043-4.032.704-3.11.39-5.587-.988-6.38-.318-.184-.688-.277-1.092-.278zm-.005 1.09v.006c.225 0 .406.044.558.127.666.382.955 1.835.73 3.704-.054.46-.142.945-.25 1.44-.96-.236-2.006-.417-3.107-.534-.66-.905-1.345-1.727-2.035-2.447 1.592-1.48 3.087-2.292 4.105-2.295zm-9.77.02c1.012 0 2.514.808 4.11 2.28-.686.72-1.37 1.537-2.02 2.442-1.107.117-2.154.298-3.113.538-.112-.49-.195-.964-.254-1.42-.23-1.868.054-3.32.714-3.707.19-.09.4-.127.563-.132zm4.882 3.05c.455.468.91.992 1.36 1.564-.44-.02-.89-.034-1.345-.034-.46 0-.915.01-1.36.034.44-.572.895-1.096 1.345-1.565zM12 8.1c.74 0 1.477.034 2.202.093.406.582.802 1.203 1.183 1.86.372.64.71 1.29 1.018 1.946-.308.655-.646 1.31-1.013 1.95-.38.66-.773 1.288-1.18 1.87-.728.063-1.466.098-2.21.098-.74 0-1.477-.035-2.202-.093-.406-.582-.802-1.204-1.183-1.86-.372-.64-.71-1.29-1.018-1.946.303-.657.646-1.313 1.013-1.954.38-.66.773-1.286 1.18-1.868.728-.064 1.466-.098 2.21-.098zm-3.635.254c-.24.377-.48.763-.704 1.16-.225.39-.435.782-.635 1.174-.265-.656-.49-1.31-.676-1.947.64-.15 1.315-.283 2.015-.386zm7.26 0c.695.103 1.365.23 2.006.387-.18.632-.405 1.282-.66 1.933-.2-.39-.41-.783-.64-1.174-.225-.392-.465-.774-.705-1.146zm3.063.675c.484.15.944.317 1.375.498 1.732.74 2.852 1.708 2.852 2.476-.005.768-1.125 1.74-2.857 2.475-.42.18-.88.342-1.355.493-.28-.958-.646-1.956-1.1-2.98.45-1.017.81-2.01 1.085-2.964zm-13.395.004c.278.96.645 1.957 1.1 2.98-.45 1.017-.812 2.01-1.086 2.964-.484-.15-.944-.318-1.37-.5-1.732-.737-2.852-1.706-2.852-2.474 0-.768 1.12-1.742 2.852-2.476.42-.18.88-.342 1.356-.494zm11.678 4.28c.265.657.49 1.312.676 1.948-.64.157-1.316.29-2.016.39.24-.375.48-.762.705-1.158.225-.39.435-.788.636-1.18zm-9.945.02c.2.392.41.783.64 1.175.23.39.465.772.705 1.143-.695-.102-1.365-.23-2.006-.386.18-.63.406-1.282.66-1.933zM17.92 16.32c.112.493.2.968.254 1.423.23 1.868-.054 3.32-.714 3.708-.147.09-.338.128-.563.128-1.012 0-2.514-.807-4.11-2.28.686-.72 1.37-1.536 2.02-2.44 1.107-.118 2.154-.3 3.113-.54zm-11.83.01c.96.234 2.006.415 3.107.532.66.905 1.345 1.727 2.035 2.446-1.595 1.483-3.092 2.295-4.11 2.295-.22-.005-.406-.05-.553-.132-.666-.38-.955-1.834-.73-3.703.054-.46.142-.944.25-1.438zm4.56.64c.44.02.89.034 1.345.034.46 0 .915-.01 1.36-.034-.44.572-.895 1.095-1.345 1.565-.455-.47-.91-.993-1.36-1.565z"/>
+    </svg>
+  ),
+  nextjs: () => (
+    <svg viewBox="0 0 24 24" className="w-8 h-8 fill-current">
+      <path d="M11.572 0c-.176 0-.31.001-.358.007a19.76 19.76 0 0 1-.364.033C7.443.346 4.25 2.185 2.228 5.012a11.875 11.875 0 0 0-2.119 5.243c-.096.659-.108.854-.108 1.747s.012 1.089.108 1.748c.652 4.506 3.86 8.292 8.209 9.695.779.25 1.6.422 2.534.525.363.04 1.935.04 2.299 0 1.611-.178 2.977-.577 4.323-1.264.207-.106.247-.134.219-.158-.02-.013-.9-1.193-1.955-2.62l-1.919-2.592-2.404-3.558a338.739 338.739 0 0 0-2.422-3.556c-.009-.002-.018 1.579-.023 3.51-.007 3.38-.01 3.515-.052 3.595a.426.426 0 0 1-.206.214c-.075.037-.14.044-.495.044H7.81l-.108-.068a.438.438 0 0 1-.157-.171l-.05-.106.006-4.703.007-4.705.072-.092a.645.645 0 0 1 .174-.143c.096-.047.134-.051.54-.051.478 0 .558.018.682.154.035.038 1.337 1.999 2.895 4.361a10760.433 10760.433 0 0 0 4.735 7.17l1.9 2.879.096-.063a12.317 12.317 0 0 0 2.466-2.163 11.944 11.944 0 0 0 2.824-6.134c.096-.66.108-.854.108-1.748 0-.893-.012-1.088-.108-1.747-.652-4.506-3.859-8.292-8.208-9.695a12.597 12.597 0 0 0-2.499-.523A33.119 33.119 0 0 0 11.573 0zm4.069 7.217c.347 0 .408.005.486.047a.473.473 0 0 1 .237.277c.018.06.023 1.365.018 4.304l-.006 4.218-.744-1.14-.746-1.14v-3.066c0-1.982.01-3.097.023-3.15a.478.478 0 0 1 .233-.296c.096-.05.13-.054.5-.054z"/>
+    </svg>
+  ),
+  typescript: () => (
+    <svg viewBox="0 0 24 24" className="w-8 h-8 fill-current">
+      <path d="M1.125 0C.502 0 0 .502 0 1.125v21.75C0 23.498.502 24 1.125 24h21.75c.623 0 1.125-.502 1.125-1.125V1.125C24 .502 23.498 0 22.875 0zm17.363 9.75c.612 0 1.154.037 1.627.111a6.38 6.38 0 0 1 1.306.34v2.458a3.95 3.95 0 0 0-.643-.361 5.093 5.093 0 0 0-.717-.26 5.453 5.453 0 0 0-1.426-.2c-.3 0-.573.028-.819.086a2.1 2.1 0 0 0-.623.242c-.17.104-.3.229-.393.374a.888.888 0 0 0-.14.49c0 .196.053.373.156.529.104.156.252.304.443.444s.423.276.696.41c.273.135.582.274.926.416.47.197.892.407 1.266.628.374.222.695.473.963.753.268.279.472.598.614.957.142.359.214.776.214 1.253 0 .657-.125 1.21-.373 1.656a3.033 3.033 0 0 1-1.012 1.085 4.38 4.38 0 0 1-1.487.596c-.566.12-1.163.18-1.79.18a9.916 9.916 0 0 1-1.84-.164 5.544 5.544 0 0 1-1.512-.493v-2.63a5.033 5.033 0 0 0 3.237 1.2c.333 0 .624-.03.872-.09.249-.06.456-.144.623-.25.166-.108.29-.234.373-.38a1.023 1.023 0 0 0-.074-1.089 2.12 2.12 0 0 0-.537-.5 5.597 5.597 0 0 0-.807-.444 27.72 27.72 0 0 0-1.007-.436c-.918-.383-1.602-.852-2.053-1.405-.45-.553-.676-1.222-.676-2.005 0-.614.123-1.141.369-1.582.246-.441.58-.804 1.004-1.089a4.494 4.494 0 0 1 1.47-.629 7.536 7.536 0 0 1 1.77-.201zm-15.113.188h9.563v2.166H9.506v9.646H6.789v-9.646H3.375z"/>
+    </svg>
+  ),
+  javascript: () => (
+    <svg viewBox="0 0 24 24" className="w-8 h-8 fill-current">
+      <path d="M0 0h24v24H0V0zm22.034 18.276c-.175-1.095-.888-2.015-3.003-2.873-.736-.345-1.554-.585-1.797-1.14-.091-.33-.105-.51-.046-.705.15-.646.915-.84 1.515-.66.39.12.75.42.976.9 1.034-.676 1.034-.676 1.755-1.125-.27-.42-.404-.601-.586-.78-.63-.705-1.469-1.065-2.834-1.034l-.705.089c-.676.165-1.32.525-1.71 1.005-1.14 1.291-.811 3.541.569 4.471 1.365 1.02 3.361 1.244 3.616 2.205.24 1.17-.87 1.545-1.966 1.41-.811-.18-1.26-.586-1.755-1.336l-1.83 1.051c.21.48.45.689.81 1.109 1.74 1.756 6.09 1.666 6.871-1.004.029-.09.24-.705.074-1.65l.046.067zm-8.983-7.245h-2.248c0 1.938-.009 3.864-.009 5.805 0 1.232.063 2.363-.138 2.711-.33.689-1.18.601-1.566.48-.396-.196-.597-.466-.83-.855-.063-.105-.11-.196-.127-.196l-1.825 1.125c.305.63.75 1.172 1.324 1.517.855.51 2.004.675 3.207.405.783-.226 1.458-.691 1.811-1.411.51-.93.402-2.07.397-3.346.012-2.054 0-4.109 0-6.179l.004-.056z"/>
+    </svg>
+  ),
+  nodejs: () => (
+    <svg viewBox="0 0 24 24" className="w-8 h-8 fill-current">
+      <path d="M11.998,24c-0.321,0-0.641-0.084-0.922-0.247l-2.936-1.737c-0.438-0.245-0.224-0.332-0.08-0.383 c0.585-0.203,0.703-0.25,1.328-0.604c0.065-0.037,0.151-0.023,0.218,0.017l2.256,1.339c0.082,0.045,0.197,0.045,0.272,0l8.795-5.076 c0.082-0.047,0.134-0.141,0.134-0.238V6.921c0-0.099-0.053-0.192-0.137-0.242l-8.791-5.072c-0.081-0.047-0.189-0.047-0.271,0 L3.075,6.68C2.99,6.729,2.936,6.825,2.936,6.921v10.15c0,0.097,0.054,0.189,0.139,0.235l2.409,1.392 c1.307,0.654,2.108-0.116,2.108-0.89V7.787c0-0.142,0.114-0.253,0.256-0.253h1.115c0.139,0,0.255,0.112,0.255,0.253v10.021 c0,1.745-0.95,2.745-2.604,2.745c-0.508,0-0.909,0-2.026-0.551L2.28,18.675c-0.57-0.329-0.922-0.945-0.922-1.604V6.921 c0-0.659,0.353-1.275,0.922-1.603l8.795-5.082c0.557-0.315,1.296-0.315,1.848,0l8.794,5.082c0.57,0.329,0.924,0.944,0.924,1.603 v10.15c0,0.659-0.354,1.273-0.924,1.604l-8.794,5.078C12.643,23.916,12.324,24,11.998,24z M19.099,13.993 c0-1.9-1.284-2.406-3.987-2.763c-2.731-0.361-3.009-0.548-3.009-1.187c0-0.528,0.235-1.233,2.258-1.233 c1.807,0,2.473,0.389,2.747,1.607c0.024,0.115,0.129,0.199,0.247,0.199h1.141c0.071,0,0.138-0.031,0.186-0.081 c0.048-0.054,0.074-0.123,0.067-0.196c-0.177-2.098-1.571-3.076-4.388-3.076c-2.508,0-4.004,1.058-4.004,2.833 c0,1.925,1.488,2.457,3.895,2.695c2.88,0.282,3.103,0.703,3.103,1.269c0,0.983-0.789,1.402-2.642,1.402 c-2.327,0-2.839-0.584-3.011-1.742c-0.02-0.124-0.126-0.215-0.253-0.215h-1.137c-0.141,0-0.254,0.112-0.254,0.253 c0,1.482,0.806,3.248,4.655,3.248C17.501,17.007,19.099,15.91,19.099,13.993z"/>
+    </svg>
+  ),
+  postgresql: () => (
+    <svg viewBox="0 0 24 24" className="w-8 h-8 fill-current">
+      <path d="M23.5594 14.7228a.5269.5269 0 0 0-.0563-.1191c-.139-.2632-.4768-.3418-1.0074-.2321-1.6533.3411-2.2935.1312-2.5256-.0191 1.342-2.0482 2.445-4.522 3.0411-6.8297.2714-1.0507.7982-3.5237.1222-4.7316C22.0347.8707 19.9702.1719 17.4424.0019c-.4757-.032-1.6807-.0325-2.1692.0005-2.1684.1471-4.2222.5575-5.459.9201a7.7294 7.7294 0 0 0-.6705-.048C7.0693.8369 5.1924 1.4271 4.1227 3.0208c-.3832.5711-.658 1.2538-.6317 2.0766-.0143.0858-.0266.1746-.0404.2641-.0614.399-.1131.7739-.1365 1.0902-.0762 1.0301.0462 1.9745.3596 2.8143-.3578.7543-.5827 1.5529-.6554 2.3885-.0792.9105.0603 1.7686.3969 2.5598-.1145.3648-.1867.7015-.2139 1.0192-.0627.7343.0467 1.4247.3105 2.0503.1706.4044.5106 1.1209 1.2483 1.5623.4172.2495.8587.3828 1.3147.4357l.0138.0016.0143.0013.0149.0007c.5765.0569 1.3657.0362 2.1374-.0483.5826-.0639 1.1633-.1661 1.6628-.3073a9.4484 9.4484 0 0 0 1.6632-.6466c.4798.1056 1.0028.1689 1.5475.1781.5469.0093 1.1126-.0308 1.6715-.1248.3579-.0602.7004-.1432 1.0187-.2467.7705.1569 1.4691.213 2.0815.1584.6769-.0603 1.267-.237 1.7517-.5544.4219-.2762.6982-.5921.8513-.8533.3798-.648.2808-1.3258.1326-1.8147-.0387-.1279-.0873-.2636-.1476-.4098.1303-.2617.2353-.5309.316-.8051.1287-.4376.1998-.8916.2103-1.3516.0053-.2302-.0006-.4609-.0156-.6907.007-.1064.0119-.2194.0106-.339-.0005-.0593-.0063-.1315-.015-.2112l-.0147-.1382a4.8737 4.8737 0 0 0-.0688-.509 5.0463 5.0463 0 0 0-.0792-.3855zm-.5765.2466c.0118.0758.0211.1583.0277.247l.0131.1395c.0064.0786.0113.1503.0118.2152.0014.0977-.0012.195-.0078.2919a3.3873 3.3873 0 0 1-.0159.2006c-.0263-.1669-.0645-.3274-.1135-.48a3.232 3.232 0 0 0-.1212-.339c-.0495-.1167-.1081-.2366-.1765-.3616a8.6584 8.6584 0 0 1 .0992-.1093c.1076-.1133.207-.2095.2831-.2844zM7.1686 5.1788c.0694-.5765.1957-1.2273.3933-1.9178.0517-.1807.1093-.3592.1714-.5352.2121-.6007.4726-1.1658.7649-1.6817.4219-.7441 1.0016-1.1916 1.6949-1.4098l.2787-.0876a.2634.2634 0 0 0 .0164-.0057c.5189-.156 1.0972-.2704 1.7151-.3507-.2621.1384-.4982.3105-.6996.5094-.388.3831-.6918.8479-.9063 1.3748-.251.6161-.4242 1.2836-.5144 1.9843a9.3879 9.3879 0 0 0-.0631 1.5448c.0016.1297.006.2607.0135.3927l.0027.0462c-.3828.1111-.7552.2423-1.1185.392-.1174.0484-.2341.0988-.3498.1516a11.5722 11.5722 0 0 0-1.035.5306 8.5353 8.5353 0 0 1-.3614-1.7379zm8.9745 9.4355c-.0005.0007-.0011.0015-.0016.0022-.0296.038-.0589.0762-.0879.1147-.3165.4195-.6155.8688-.8845 1.3373-.2467.4299-.4686.876-.6624 1.3311-.2259.531-.4124 1.0672-.5478 1.5983-.0375.147-.0683.291-.0919.4316l-.0155.0001a9.0547 9.0547 0 0 1-.9849-.0588 5.9789 5.9789 0 0 1-.3471-.0542c.2142-.2829.4021-.5818.5609-.8906.2148-.4178.3813-.8505.4979-1.2924.1054-.3996.1676-.8049.1842-1.2114.0091-.2217-.0022-.4578-.0423-.7011-.0195-.1183-.0483-.2384-.0876-.3584a3.4052 3.4052 0 0 0-.1355-.3446c-.0422-.0891-.0904-.1772-.1447-.2633-.0481-.0763-.1014-.1509-.16-.223-.0587-.0721-.123-.1427-.1932-.2105a3.3038 3.0875 0 0 0-.2162-.1921 3.5328 3.5328 0 0 0-.3161-.2211l-.0007-.0003c.2391-.3661.522-.707.8396-1.0147.4186-.4057.8943-.7617 1.41-1.0596a8.1284 8.1284 0 0 1 1.3934-.6918c.4916-.1907 1.0097-.3411 1.5432-.4484a10.5605 10.5605 0 0 1 1.6284-.2201c.2781-.0154.5615-.0202.8462-.0151.0785.0014.1567.0038.2343.0072.0116.001.0232.0013.0347.0023l-.0003.0024c.0037.004.0074.0077.011.0116.0006.0005.0011.001.0017.0015.0089.0096.0177.0192.0264.0287a6.3882 6.3882 0 0 1 .0757.0909c.088.1103.1684.2253.2407.3434.0674.11.1279.2219.182.3353.0443.0929.0832.1862.117.2799.0372.1033.0664.2063.088.3089.0155.0746.0259.1483.0316.2212a1.8948 1.8948 0 0 1-.0025.3261 3.2533 3.2533 0 0 1-.0306.2689 4.1303 4.1303 0 0 1-.057.3011c-.0534.2259-.1261.4507-.2162.6717-.0907.2227-.1976.4407-.3188.6524-.1237.2156-.2617.4236-.4124.6233-.0653.0864-.1336.171-.2044.2544-.0354.0418-.0713.0834-.1078.1249-.0291.0331-.0585.0663-.0884.0994zm2.7949-5.8968a8.4478 8.4478 0 0 0-.2228-.1315c.0777-.1235.1475-.2502.2093-.3797.0902-.1887.1664-.3811.2281-.5763.0713-.2255.1239-.4523.157-.6793.0241-.1645.0362-.3288.0362-.4925a3.1169 3.1169 0 0 0-.0303-.4387c-.0233-.1633-.0603-.326-.1102-.4877a2.8923 2.8923 0 0 0-.1698-.4367 3.8095 3.8095 0 0 0-.1987-.3661 4.8065 4.8065 0 0 0-.215-.3195c-.0681-.0906-.1404-.1783-.2165-.2626-.0324-.0358-.0658-.0711-.1001-.1058-.0171-.0173-.0345-.0347-.0521-.0518l-.0096-.0093-.0003-.0003a.1753.1753 0 0 0-.0073-.0068 7.6003 7.6003 0 0 0-.107-.095c.0919.0097.1833.0211.274.0342.1525.022.3023.0498.449.0833.2485.0568.486.1301.7071.2187.4072.1633.7648.3911 1.0515.6687.2388.2312.4267.4975.5544.7889.0733.1673.1227.3412.1498.5188.0122.08.0201.1602.024.2406.0036.0751.0036.1497 0 .2238-.004.0806-.0125.1606-.0256.2399a2.6118 2.6118 0 0 1-.0568.2667c-.0524.1941-.1264.3857-.2196.5721-.101.2024-.2244.3975-.3674.5832-.0779.1012-.163.1989-.2543.2928a5.6785 5.6785 0 0 1-.2749.2669c-.0992.0887-.2031.1737-.3113.255-.0595.0448-.1201.0886-.1817.1314-.0386.0268-.0776.0532-.1169.0792a7.6236 7.6236 0 0 0-.3067-.236 7.4792 7.4792 0 0 0-.5401-.3471z"/>
+    </svg>
+  ),
+  tailwind: () => (
+    <svg viewBox="0 0 24 24" className="w-8 h-8 fill-current">
+      <path d="M12.001,4.8c-3.2,0-5.2,1.6-6,4.8c1.2-1.6,2.6-2.2,4.2-1.8c0.913,0.228,1.565,0.89,2.288,1.624 C13.666,10.618,15.027,12,18.001,12c3.2,0,5.2-1.6,6-4.8c-1.2,1.6-2.6,2.2-4.2,1.8c-0.913-0.228-1.565-0.89-2.288-1.624 C16.337,6.182,14.976,4.8,12.001,4.8z M6.001,12c-3.2,0-5.2,1.6-6,4.8c1.2-1.6,2.6-2.2,4.2-1.8c0.913,0.228,1.565,0.89,2.288,1.624 c1.177,1.194,2.538,2.576,5.512,2.576c3.2,0,5.2-1.6,6-4.8c-1.2,1.6-2.6,2.2-4.2,1.8c-0.913-0.228-1.565-0.89-2.288-1.624 C10.337,13.382,8.976,12,6.001,12z"/>
+    </svg>
+  ),
+  framer: () => (
+    <svg viewBox="0 0 24 24" className="w-8 h-8 fill-current">
+      <path d="M4 0h16v8h-8zM4 8h8l8 8H4zM4 16h8v8z"/>
+    </svg>
+  ),
+  git: () => (
+    <svg viewBox="0 0 24 24" className="w-8 h-8 fill-current">
+      <path d="M23.546 10.93L13.067.452c-.604-.603-1.582-.603-2.188 0L8.708 2.627l2.76 2.76c.645-.215 1.379-.07 1.889.441.516.515.658 1.258.438 1.9l2.658 2.66c.645-.223 1.387-.078 1.9.435.721.72.721 1.884 0 2.604-.719.719-1.881.719-2.6 0-.539-.541-.674-1.337-.404-1.996L12.86 8.955v6.525c.176.086.342.203.488.348.713.721.713 1.883 0 2.6-.719.721-1.889.721-2.609 0-.719-.719-.719-1.879 0-2.598.182-.18.387-.316.605-.406V8.835c-.217-.091-.424-.222-.6-.401-.545-.545-.676-1.342-.396-2.009L7.636 3.7.45 10.881c-.6.605-.6 1.584 0 2.189l10.48 10.477c.604.604 1.582.604 2.186 0l10.43-10.43c.605-.603.605-1.582 0-2.187"/>
+    </svg>
+  ),
+  docker: () => (
+    <svg viewBox="0 0 24 24" className="w-8 h-8 fill-current">
+      <path d="M13.983 11.078h2.119a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.119a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185m-2.954-5.43h2.118a.186.186 0 00.186-.186V3.574a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m0 2.716h2.118a.187.187 0 00.186-.186V6.29a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.887c0 .102.082.186.185.186m-2.93 0h2.12a.186.186 0 00.184-.186V6.29a.185.185 0 00-.185-.185H8.1a.185.185 0 00-.185.185v1.887c0 .102.083.186.185.186m-2.964 0h2.119a.186.186 0 00.185-.186V6.29a.185.185 0 00-.185-.185H5.136a.186.186 0 00-.186.185v1.887c0 .102.084.186.186.186m5.893 2.715h2.118a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m-2.93 0h2.12a.185.185 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.083.185.185.185m-2.964 0h2.119a.185.185 0 00.185-.185V9.006a.185.185 0 00-.184-.186h-2.12a.186.186 0 00-.186.186v1.887c0 .102.084.185.186.185m-2.92 0h2.12a.185.185 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.082.185.185.185M23.763 9.89c-.065-.051-.672-.51-1.954-.51-.338.001-.676.03-1.01.087-.248-1.7-1.653-2.53-1.716-2.566l-.344-.199-.226.327c-.284.438-.49.922-.612 1.43-.23.97-.09 1.882.403 2.661-.595.332-1.55.413-1.744.42H.751a.751.751 0 00-.75.748 11.376 11.376 0 00.692 4.062c.545 1.428 1.355 2.48 2.41 3.124 1.18.723 3.1 1.137 5.275 1.137.983.003 1.963-.086 2.93-.266a12.248 12.248 0 003.823-1.389c.98-.567 1.86-1.288 2.61-2.136 1.252-1.418 1.998-2.997 2.553-4.4h.221c1.372 0 2.215-.549 2.68-1.009.309-.293.55-.65.707-1.046l.098-.288Z"/>
+    </svg>
+  ),
+  vercel: () => (
+    <svg viewBox="0 0 24 24" className="w-8 h-8 fill-current">
+      <path d="M24 22.525H0l12-21.05 12 21.05z"/>
+    </svg>
+  ),
+  figma: () => (
+    <svg viewBox="0 0 24 24" className="w-8 h-8 fill-current">
+      <path d="M15.852 8.981h-4.588V0h4.588c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.491-4.49 4.491zM12.735 7.51h3.117c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-3.117V7.51zm0 1.471H8.148c-2.476 0-4.49-2.014-4.49-4.49S5.672 0 8.148 0h4.588v8.981zm-4.587-7.51c-1.665 0-3.019 1.355-3.019 3.019s1.354 3.02 3.019 3.02h3.117V1.471H8.148zm4.587 15.019H8.148c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h4.588v8.98zM8.148 8.981c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h3.117V8.981H8.148zM8.172 24c-2.489 0-4.515-2.014-4.515-4.49s2.014-4.49 4.49-4.49h4.588v4.441c0 2.503-2.047 4.539-4.563 4.539zm-.024-7.51a3.023 3.023 0 0 0-3.019 3.019c0 1.665 1.365 3.019 3.044 3.019 1.705 0 3.093-1.376 3.093-3.068v-2.97H8.148zm7.704 0h-.098c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h.098c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.49-4.49 4.49zm-.097-7.509c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h.098c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-.098z"/>
+    </svg>
+  ),
+  supabase: () => (
+    <svg viewBox="0 0 24 24" className="w-8 h-8 fill-current">
+      <path d="M21.362 9.354H12V.396a.396.396 0 0 0-.716-.233L2.203 12.424l-.401.562a1.04 1.04 0 0 0 .836 1.659H12v8.959a.396.396 0 0 0 .716.233l9.081-12.261.401-.562a1.04 1.04 0 0 0-.836-1.66z"/>
+    </svg>
+  ),
+  graphql: () => (
+    <svg viewBox="0 0 24 24" className="w-8 h-8 fill-current">
+      <path d="M14.051 2.751l4.935 2.85c.816-.859 2.173-.893 3.032-.077.148.14.274.301.377.477.589 1.028.232 2.339-.796 2.928-.174.1-.361.175-.558.223v5.699c1.146.273 1.854 1.423 1.58 2.569-.048.204-.127.4-.232.581-.592 1.023-1.901 1.374-2.927.782-.196-.113-.375-.259-.526-.428l-4.905 2.832c.372 1.124-.238 2.335-1.361 2.706-.217.071-.442.108-.67.108-1.181.001-2.139-.955-2.14-2.136 0-.205.029-.41.088-.609l-4.936-2.847c-.816.854-2.171.887-3.026.07-.854-.816-.886-2.171-.07-3.026.283-.297.646-.506 1.044-.603l.001-5.699c-1.15-.276-1.858-1.433-1.581-2.584.047-.198.123-.389.224-.566.593-1.024 1.907-1.373 2.931-.779.188.109.357.247.498.408l4.907-2.834c-.372-1.125.239-2.335 1.364-2.706.217-.071.442-.107.67-.106 1.181.001 2.138.957 2.137 2.138.001.207-.029.414-.089.614zm-.387 1.894l-4.913 2.836c.402.883.166 1.925-.588 2.544v5.708c.207.042.408.114.598.212l4.895-2.825c-.402-.883-.166-1.924.589-2.543v-5.708a2.178 2.178 0 0 1-.581-.224zM4.168 7.871v5.7c.166.04.327.097.48.171l4.897-2.827a2.098 2.098 0 0 1-.009-1.721l-4.893-2.826c-.152.078-.311.135-.475.174v-.671zm7.237-2.348a2.123 2.123 0 0 1-.903-.465l-4.9 2.829c.067.156.114.319.142.486h9.581c.027-.171.076-.338.148-.497l-4.068-2.353zm.156 14.847l4.938-2.851a2.149 2.149 0 0 1-.18-.519H6.792c-.027.181-.079.357-.156.522l4.925 2.848z"/>
+    </svg>
+  ),
+  vscode: () => (
+    <svg viewBox="0 0 24 24" className="w-8 h-8 fill-current">
+      <path d="M23.15 2.587L18.21.21a1.494 1.494 0 0 0-1.705.29l-9.46 8.63-4.12-3.128a.999.999 0 0 0-1.276.057L.327 7.261A1 1 0 0 0 .326 8.74L3.899 12 .326 15.26a1 1 0 0 0 .001 1.479L1.65 17.94a.999.999 0 0 0 1.276.057l4.12-3.128 9.46 8.63a1.492 1.492 0 0 0 1.704.29l4.942-2.377A1.5 1.5 0 0 0 24 20.06V3.939a1.5 1.5 0 0 0-.85-1.352zm-5.146 14.861L10.826 12l7.178-5.448v10.896z"/>
+    </svg>
+  ),
+}
+
+// Tech items with icons and names
+const techItems = [
+  { name: "React", Icon: TechIcons.react, color: "text-cyan-400" },
+  { name: "Next.js", Icon: TechIcons.nextjs, color: "text-white" },
+  { name: "TypeScript", Icon: TechIcons.typescript, color: "text-blue-400" },
+  { name: "JavaScript", Icon: TechIcons.javascript, color: "text-yellow-400" },
+  { name: "Node.js", Icon: TechIcons.nodejs, color: "text-green-500" },
+  { name: "PostgreSQL", Icon: TechIcons.postgresql, color: "text-blue-300" },
+  { name: "Tailwind", Icon: TechIcons.tailwind, color: "text-cyan-300" },
+  { name: "Framer", Icon: TechIcons.framer, color: "text-pink-400" },
+  { name: "Git", Icon: TechIcons.git, color: "text-orange-500" },
+  { name: "Docker", Icon: TechIcons.docker, color: "text-blue-500" },
+  { name: "Vercel", Icon: TechIcons.vercel, color: "text-white" },
+  { name: "Figma", Icon: TechIcons.figma, color: "text-purple-400" },
+  { name: "Supabase", Icon: TechIcons.supabase, color: "text-emerald-400" },
+  { name: "GraphQL", Icon: TechIcons.graphql, color: "text-pink-500" },
+  { name: "VS Code", Icon: TechIcons.vscode, color: "text-blue-400" },
+]
 
 const skills = [
   {
     category: "Frontend",
-    icon: <Layout className="h-6 w-6 text-pink-500" />,
-    items: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Framer Motion", "Vue.js"]
+    icon: <Code2 className="h-6 w-6" />,
+    color: "from-pink-500 to-rose-500",
+    glowColor: "group-hover:shadow-pink-500/25",
+    items: [
+      { name: "React", level: 95 },
+      { name: "Next.js", level: 90 },
+      { name: "TypeScript", level: 88 },
+      { name: "Tailwind CSS", level: 92 },
+      { name: "Framer Motion", level: 85 }
+    ]
   },
   {
     category: "Backend",
-    icon: <Server className="h-6 w-6 text-purple-500" />,
-    items: ["Node.js", "Express", "Supabase", "PostgreSQL", "Firebase", "Python"]
+    icon: <Database className="h-6 w-6" />,
+    color: "from-purple-500 to-violet-500",
+    glowColor: "group-hover:shadow-purple-500/25",
+    items: [
+      { name: "Node.js", level: 88 },
+      { name: "Supabase", level: 85 },
+      { name: "PostgreSQL", level: 82 },
+      { name: "REST APIs", level: 90 },
+      { name: "GraphQL", level: 78 }
+    ]
   },
   {
-    category: "Tools & DevOps",
-    icon: <Settings className="h-6 w-6 text-blue-500" />,
-    items: ["Git", "Docker", "AWS", "Vercel", "Figma", "VS Code"]
+    category: "Tools",
+    icon: <Wrench className="h-6 w-6" />,
+    color: "from-cyan-500 to-blue-500",
+    glowColor: "group-hover:shadow-cyan-500/25",
+    items: [
+      { name: "Git", level: 92 },
+      { name: "Docker", level: 75 },
+      { name: "Vercel", level: 90 },
+      { name: "Figma", level: 80 },
+      { name: "VS Code", level: 95 }
+    ]
   }
 ]
 
-export function TechStack() {
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
+// Premium easing curve
+const premiumEase = [0.76, 0, 0.24, 1] as const
+
+// Animation variants
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+      delayChildren: 0.1
     }
   }
+}
 
-  const item = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0 }
+const headingVariants: Variants = {
+  hidden: { y: 60, opacity: 0, skewY: 3 },
+  visible: { 
+    y: 0, 
+    opacity: 1, 
+    skewY: 0,
+    transition: { duration: 0.8, ease: premiumEase }
+  }
+}
+
+const cardVariants: Variants = {
+  hidden: { y: 60, opacity: 0, scale: 0.95 },
+  visible: { 
+    y: 0, 
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.8, ease: premiumEase }
+  }
+}
+
+// 3D Tilt Card Component
+function TiltCard({ children, className }: { children: React.ReactNode; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const [isHovered, setIsHovered] = useState(false)
+  
+  const x = useMotionValue(0)
+  const y = useMotionValue(0)
+  
+  const mouseXSpring = useSpring(x, { stiffness: 300, damping: 30 })
+  const mouseYSpring = useSpring(y, { stiffness: 300, damping: 30 })
+  
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["10deg", "-10deg"])
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-10deg", "10deg"])
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!ref.current) return
+    const rect = ref.current.getBoundingClientRect()
+    const width = rect.width
+    const height = rect.height
+    const mouseX = e.clientX - rect.left
+    const mouseY = e.clientY - rect.top
+    const xPct = mouseX / width - 0.5
+    const yPct = mouseY / height - 0.5
+    x.set(xPct)
+    y.set(yPct)
+  }
+
+  const handleMouseLeave = () => {
+    setIsHovered(false)
+    x.set(0)
+    y.set(0)
   }
 
   return (
-    <div className="w-full max-w-6xl mx-auto">
-      <div className="text-center mb-16">
-        <h2 className="text-3xl md:text-5xl font-bold mb-4">Tech Stack</h2>
-        <p className="text-muted-foreground text-lg">My preferred weapons of choice for building digital products.</p>
+    <motion.div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        rotateX: isHovered ? rotateX : 0,
+        rotateY: isHovered ? rotateY : 0,
+        transformStyle: "preserve-3d",
+      }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
+// Skill Bar Component
+function SkillBar({ name, level, delay }: { name: string; level: number; delay: number }) {
+  return (
+    <motion.div 
+      className="space-y-1.5"
+      initial={{ opacity: 0, x: -20 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay, duration: 0.5, ease: premiumEase }}
+    >
+      <div className="flex justify-between text-sm">
+        <span className="text-foreground/80">{name}</span>
+        <span className="text-muted-foreground">{level}%</span>
       </div>
+      <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+        <motion.div
+          className="h-full bg-gradient-to-r from-accent to-primary rounded-full"
+          initial={{ width: 0 }}
+          whileInView={{ width: `${level}%` }}
+          viewport={{ once: true }}
+          transition={{ delay: delay + 0.2, duration: 0.8, ease: premiumEase }}
+        />
+      </div>
+    </motion.div>
+  )
+}
 
-      <motion.div 
-        variants={container}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true }}
-        className="grid grid-cols-1 md:grid-cols-3 gap-8"
-      >
-        {skills.map((skill, idx) => (
-          <motion.div key={idx} variants={item}>
-            <Card className="p-6 h-full border-primary/10 bg-card/50 backdrop-blur-sm hover:border-primary/30 transition-colors">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-3 rounded-lg bg-primary/10">
-                  {skill.icon}
-                </div>
-                <h3 className="text-xl font-semibold">{skill.category}</h3>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {skill.items.map((tech, i) => (
-                  <span 
-                    key={i}
-                    className="px-3 py-1 text-sm rounded-full bg-secondary/10 text-secondary-foreground border border-secondary/20"
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            </Card>
-          </motion.div>
-        ))}
-      </motion.div>
-
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.5 }}
-        className="mt-16 p-8 rounded-2xl bg-gradient-to-r from-pink-500/10 to-purple-500/10 border border-white/5"
-      >
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-          <Stat value="3+" label="Years Experience" />
-          <Stat value="20+" label="Projects Built" />
-          <Stat value="100%" label="Client Satisfaction" />
-          <Stat value="24/7" label="Support" />
-        </div>
-      </motion.div>
+// Tech Icon Item for Marquee
+function TechIconItem({ name, Icon, color }: { name: string; Icon: () => JSX.Element; color: string }) {
+  return (
+    <div className="flex flex-col items-center gap-2 px-6 group">
+      <div className={`${color} opacity-60 group-hover:opacity-100 transition-opacity duration-300`}>
+        <Icon />
+      </div>
+      <span className="text-xs text-muted-foreground group-hover:text-foreground transition-colors">
+        {name}
+      </span>
     </div>
   )
 }
 
-function Stat({ value, label }: { value: string; label: string }) {
+export function TechStack() {
   return (
-    <div className="flex flex-col items-center">
-      <span className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-purple-500">
-        {value}
-      </span>
-      <span className="text-sm text-muted-foreground mt-2">{label}</span>
+    <div className="w-full min-h-screen flex items-center justify-center py-20 relative">
+      {/* Decorative Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <motion.div
+          className="absolute top-1/4 left-1/4 w-64 h-64 bg-accent/5 rounded-full blur-[100px]"
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.3, 0.5, 0.3],
+          }}
+          transition={{ duration: 8, repeat: Infinity }}
+        />
+        <motion.div
+          className="absolute bottom-1/4 right-1/4 w-48 h-48 bg-primary/5 rounded-full blur-[80px]"
+          animate={{
+            scale: [1.2, 1, 1.2],
+            opacity: [0.5, 0.3, 0.5],
+          }}
+          transition={{ duration: 6, repeat: Infinity }}
+        />
+      </div>
+
+      <div className="w-full max-w-5xl mx-auto px-6 relative z-10">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+        >
+          {/* Heading */}
+          <div className="text-center mb-12 overflow-hidden">
+            <motion.div 
+              className="inline-flex items-center gap-2 mb-4"
+              variants={headingVariants}
+            >
+              <Sparkles className="h-5 w-5 text-accent" />
+              <span className="text-sm text-accent font-medium tracking-wider uppercase">
+                Tech Stack
+              </span>
+            </motion.div>
+            <motion.h2 
+              className="text-4xl md:text-6xl font-bold mb-4"
+              variants={headingVariants}
+            >
+              Skills & <span className="text-gradient-pink">Expertise</span>
+            </motion.h2>
+            <motion.p 
+              className="text-muted-foreground text-lg max-w-2xl mx-auto"
+              variants={headingVariants}
+            >
+              Crafting digital experiences with modern technologies
+            </motion.p>
+          </div>
+
+          {/* Tech Icons Marquee */}
+          <motion.div
+            className="mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3, duration: 0.6 }}
+          >
+            {/* First Row - Left to Right */}
+            <div className="relative mb-4">
+              <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-black to-transparent z-10" />
+              <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-black to-transparent z-10" />
+              <Marquee speed="slow" pauseOnHover>
+                {techItems.map((tech, idx) => (
+                  <TechIconItem key={idx} {...tech} />
+                ))}
+              </Marquee>
+            </div>
+            
+            {/* Second Row - Right to Left */}
+            <div className="relative">
+              <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-black to-transparent z-10" />
+              <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-black to-transparent z-10" />
+              <Marquee speed="slow" reverse pauseOnHover>
+                {[...techItems].reverse().map((tech, idx) => (
+                  <TechIconItem key={idx} {...tech} />
+                ))}
+              </Marquee>
+            </div>
+          </motion.div>
+
+          {/* Skills Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {skills.map((skill, idx) => (
+              <motion.div key={idx} variants={cardVariants}>
+                <TiltCard className="h-full">
+                  <div className={`group relative p-6 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-accent/30 transition-all duration-500 h-full shadow-lg hover:shadow-2xl ${skill.glowColor}`}>
+                    {/* Gradient overlay on hover */}
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    
+                    {/* Card Header */}
+                    <div className="relative flex items-center gap-4 mb-6">
+                      <motion.div 
+                        className={`p-3 rounded-xl bg-gradient-to-br ${skill.color} text-white shadow-lg`}
+                        whileHover={{ scale: 1.1, rotate: 5 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        {skill.icon}
+                      </motion.div>
+                      <div>
+                        <h3 className="text-xl font-bold">{skill.category}</h3>
+                        <p className="text-sm text-muted-foreground">
+                          {skill.items.length} technologies
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Skill Bars */}
+                    <div className="relative space-y-3">
+                      {skill.items.map((item, i) => (
+                        <SkillBar 
+                          key={i} 
+                          name={item.name} 
+                          level={item.level}
+                          delay={idx * 0.1 + i * 0.05}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </TiltCard>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Bottom Stats */}
+          <motion.div
+            className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.5, duration: 0.6 }}
+          >
+            {[
+              { value: "3+", label: "Years Experience" },
+              { value: "50+", label: "Projects Completed" },
+              { value: "15+", label: "Technologies" },
+              { value: "100%", label: "Client Satisfaction" },
+            ].map((stat, idx) => (
+              <motion.div
+                key={idx}
+                className="text-center p-4 rounded-xl bg-white/[0.02] border border-white/5"
+                whileHover={{ scale: 1.05, borderColor: "rgba(245, 108, 185, 0.3)" }}
+                transition={{ duration: 0.3 }}
+              >
+                <motion.div
+                  className="text-3xl md:text-4xl font-bold text-gradient-pink"
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.6 + idx * 0.1, duration: 0.5, ease: premiumEase }}
+                >
+                  {stat.value}
+                </motion.div>
+                <div className="text-sm text-muted-foreground mt-1">{stat.label}</div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </motion.div>
+      </div>
     </div>
   )
 }
