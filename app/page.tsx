@@ -1,92 +1,51 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { SlideContainer } from "@/components/slides/slide-container"
-import { SlideSection } from "@/components/slides/slide-section"
-import { Hero } from "@/components/features/hero"
-import { TechStack } from "@/components/features/tech-stack"
-import { Contact } from "@/components/features/contact"
-import { Navbar } from "@/components/navbar"
-import { LoadingScreen } from "@/components/loading-screen"
-import { FullscreenSlider } from "@/components/portfolio/fullscreen-slider"
-import { FloatingShapes } from "@/components/effects/floating-shapes"
-import { motion, AnimatePresence } from "framer-motion"
+import dynamic from "next/dynamic"
+import { SmoothScrollProvider } from "@/components/smooth-scroll-provider"
+import { NavbarRedesign } from "@/components/redesign/navbar"
+import { HeroRedesign } from "@/components/redesign/hero"
+import { LogoMarquee } from "@/components/redesign/logo-marquee"
+import { AboutRedesign } from "@/components/redesign/about"
+import { WorkRedesign } from "@/components/redesign/work"
+import { CurvedDivider } from "@/components/redesign/curved-divider"
+import { ContactRedesign } from "@/components/redesign/contact"
+import { FooterRedesign } from "@/components/redesign/footer"
+
+const LightRays = dynamic(() => import("@/components/LightRays"), { ssr: false })
 
 export default function Home() {
-  const [isLoading, setIsLoading] = useState(true)
-  const [showContent, setShowContent] = useState(false)
-
-  useEffect(() => {
-    // Prevent scroll during loading
-    if (isLoading) {
-      document.body.style.overflow = "hidden"
-    } else {
-      document.body.style.overflow = ""
-    }
-
-    return () => {
-      document.body.style.overflow = ""
-    }
-  }, [isLoading])
-
-  const handleLoadingComplete = () => {
-    setIsLoading(false)
-    // Small delay before showing content for smooth transition
-    setTimeout(() => setShowContent(true), 100)
-  }
-
   return (
-    <>
-      {/* Loading Screen */}
-      <AnimatePresence mode="wait">
-        {isLoading && (
-          <LoadingScreen 
-            onComplete={handleLoadingComplete} 
-            duration={1.8}
-          />
-        )}
-      </AnimatePresence>
+    <SmoothScrollProvider>
+      {/* Fixed WebGL background */}
+      <div className="fixed inset-0 z-0 pointer-events-none" aria-hidden="true">
+        <LightRays
+          raysOrigin="top-center"
+          raysColor="#A855F7"
+          raysSpeed={0.4}
+          lightSpread={1.5}
+          rayLength={2.5}
+          fadeDistance={1.2}
+          saturation={1.2}
+          followMouse
+          mouseInfluence={0.08}
+          noiseAmount={0.02}
+          distortion={0.03}
+          pulsating
+        />
+      </div>
 
-      {/* Global Floating Shapes Background - Visible on ALL sections */}
-      <FloatingShapes />
-
-      {/* Main Content */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: showContent ? 1 : 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <div className="fixed top-0 left-0 right-0 z-50">
-          <Navbar />
-        </div>
-        
-        <SlideContainer>
-          
-          {/* Slide 1: Hero */}
-          <SlideSection id="hero">
-            <Hero />
-          </SlideSection>
-
-          {/* Slide 2: Tech Stack */}
-          <SlideSection id="tech">
-            <TechStack />
-          </SlideSection>
-
-          {/* Slide 3: Portfolio - Fullscreen Slider */}
-          <SlideSection id="portfolio" fullWidth>
-            <FullscreenSlider 
-              showFloatingShapes={false}
-              autoPlay={false}
-            />
-          </SlideSection>
-
-          {/* Slide 4: Contact */}
-          <SlideSection id="contact">
-            <Contact />
-          </SlideSection>
-
-        </SlideContainer>
-      </motion.div>
-    </>
+      <div className="relative z-10">
+        <NavbarRedesign />
+        <main className="scrollbar-none">
+          <HeroRedesign />
+          <LogoMarquee />
+          <AboutRedesign />
+          <WorkRedesign />
+          <CurvedDivider />
+          <ContactRedesign />
+        </main>
+        <FooterRedesign />
+      </div>
+    </SmoothScrollProvider>
   )
 }

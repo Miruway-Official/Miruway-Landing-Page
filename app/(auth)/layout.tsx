@@ -1,15 +1,10 @@
-import NavbarLanding from "@/components/navbar";
+import { NavbarRedesign } from "@/components/redesign/navbar"
 
-export default function AuthLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <NavbarLanding />
+      <NavbarRedesign />
       {children}
-      {/* <Footer /> */}
     </>
-  );
+  )
 }
