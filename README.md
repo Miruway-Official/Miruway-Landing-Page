@@ -6,7 +6,7 @@ A production-ready landing page for Miruway — a full-stack development studio 
 
 | Category | Technology |
 |----------|------------|
-| Framework | Next.js 14 (App Router) |
+| Framework | Next.js 16 (App Router) |
 | Styling | Tailwind CSS v4 + shadcn/ui |
 | Animations | Framer Motion + GSAP |
 | WebGL | OGL (LightRays shader) |
