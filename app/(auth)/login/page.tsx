@@ -1,23 +1,34 @@
 "use client"
 
+import dynamic from "next/dynamic"
 import { LoginForm } from "@/components/login-form"
-import { motion } from "framer-motion"
+
+const LightRays = dynamic(() => import("@/components/LightRays"), { ssr: false })
 
 export default function LoginPage() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center p-6 md:p-10 relative overflow-hidden bg-background">
-      {/* Background Decor */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-primary/20 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-accent/15 rounded-full blur-[100px] pointer-events-none" />
+    <>
+      {/* Same WebGL background as homepage */}
+      <div className="fixed inset-0 z-0 pointer-events-none" aria-hidden="true">
+        <LightRays
+          raysOrigin="top-center"
+          raysColor="#A855F7"
+          raysSpeed={0.4}
+          lightSpread={1.5}
+          rayLength={2.5}
+          fadeDistance={1.2}
+          saturation={1.2}
+          followMouse
+          mouseInfluence={0.08}
+          noiseAmount={0.02}
+          distortion={0.03}
+          pulsating
+        />
+      </div>
 
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-        className="w-full max-w-sm md:max-w-4xl relative z-10"
-      >
+      <div className="relative z-10">
         <LoginForm />
-      </motion.div>
-    </div>
+      </div>
+    </>
   )
 }

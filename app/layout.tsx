@@ -1,25 +1,22 @@
 import type { Metadata } from "next";
-import { Outfit, Prompt } from "next/font/google"; // Modern & Wow + Clean Thai
+import { Sora, DM_Sans } from "next/font/google";
 import "./globals.css";
-import { BarbaProvider } from "@/components/barba-provider";
-import { AnimatedBackground } from "@/components/animated-background";
 
-const outfit = Outfit({
+const sora = Sora({
   subsets: ["latin"],
-  variable: "--font-outfit",
+  variable: "--font-sora",
   display: "swap",
 });
 
-const prompt = Prompt({
-  subsets: ["latin", "thai"],
-  weight: ["300", "400", "500", "600"],
-  variable: "--font-prompt",
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  variable: "--font-dm-sans",
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Miruway Shop",
-  description: "Miruway Shop",
+  title: "Miruway - Full Stack Developer",
+  description: "Full Stack Developer crafting modern web experiences with Next.js, React, and TypeScript.",
 };
 
 export default function RootLayout({
@@ -30,12 +27,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${outfit.variable} ${prompt.variable} font-sans antialiased relative`}
+        className={`${sora.variable} ${dmSans.variable} font-sans antialiased`}
       >
-        <AnimatedBackground />
-        <BarbaProvider>
-            {children}
-        </BarbaProvider>
+        {children}
       </body>
     </html>
   );
