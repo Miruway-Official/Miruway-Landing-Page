@@ -1,0 +1,16 @@
+{
+  "version": "1.8.1",
+  "installedAt": "2026-01-13T15:30:04.259Z",
+  "targetDir": "D:\\git\\Miruway\\Miruway-Landing-Page",
+  "ides": [
+    "claude",
+    "gemini"
+  ],
+  "components": {
+    "skills": true,
+    "agents": true,
+    "commands": true,
+    "templates": true,
+    "memory": true
+  }
+}
