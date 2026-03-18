@@ -1,15 +1,22 @@
 import type { Metadata } from "next";
-import { Kanit } from "next/font/google";
+import { Sora, DM_Sans } from "next/font/google";
 import "./globals.css";
 
-const kanit = Kanit({
-  subsets: ["latin", "thai"],
-  weight: ["300", "400", "500", "600", "700"]
+const sora = Sora({
+  subsets: ["latin"],
+  variable: "--font-sora",
+  display: "swap",
+});
+
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  variable: "--font-dm-sans",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Miruway Shop",
-  description: "Miruway Shop",
+  title: "Miruway - Full Stack Developer",
+  description: "Full Stack Developer crafting modern web experiences with Next.js, React, and TypeScript.",
 };
 
 export default function RootLayout({
@@ -20,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${kanit.className} antialiased`}
+        className={`${sora.variable} ${dmSans.variable} font-sans antialiased`}
       >
         {children}
       </body>
