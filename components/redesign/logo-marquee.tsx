@@ -4,7 +4,7 @@ import { motion, useInView } from "framer-motion"
 import { useRef } from "react"
 import { LogoLoop } from "@/components/LogoLoop"
 
-const ease = [0.25, 1, 0.5, 1]
+const ease: [number, number, number, number] = [0.25, 1, 0.5, 1]
 
 // Tech stack logos as text nodes styled with the current theme
 const techLogos = [

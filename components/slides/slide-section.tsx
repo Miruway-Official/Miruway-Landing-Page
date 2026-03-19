@@ -32,7 +32,7 @@ export function SlideSection({ children, className, id, fullWidth = false }: Sli
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ 
             duration: 0.6, 
-            ease: [0.76, 0, 0.24, 1]
+            ease: [0.76, 0, 0.24, 1] as [number, number, number, number]
           }}
           className="w-full h-full"
         >
@@ -57,7 +57,7 @@ export function SlideSection({ children, className, id, fullWidth = false }: Sli
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
         transition={{ 
           duration: 0.8, 
-          ease: [0.76, 0, 0.24, 1]
+          ease: [0.76, 0, 0.24, 1] as [number, number, number, number]
         }}
         className="container mx-auto px-4 md:px-6 py-12 md:py-24 h-full flex flex-col justify-center"
       >

@@ -5,7 +5,7 @@ import { motion } from "framer-motion"
 import gsap from "gsap"
 import scrollToSection from "@/lib/scrollToSection"
 
-const ease = [0.25, 1, 0.5, 1]
+const ease: [number, number, number, number] = [0.25, 1, 0.5, 1]
 
 const rotatingWords = ["matter.", "inspire.", "perform.", "last."]
 

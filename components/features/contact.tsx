@@ -3,11 +3,11 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { motion, Variants } from "framer-motion"
+import { motion, Variants, cubicBezier } from "framer-motion"
 import { Send } from "lucide-react"
 
 // Premium easing curve (matches Work section)
-const premiumEase = [0.76, 0, 0.24, 1]
+const premiumEase = cubicBezier(0.76, 0, 0.24, 1)
 
 // Animation variants
 const containerVariants: Variants = {

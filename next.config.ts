@@ -2,34 +2,14 @@ const nextConfig = {
   // Enable standalone output for Docker
   output: "standalone",
 
-  // ⚠️ Ignore errors during build (สำหรับ CI/CD)
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-
-  experimental: {
-    // Turbopack is automatically used in Next.js 15+ for dev mode
-    // No additional configuration needed for filesystem caching
-  },
-
-  // Image optimization
+  // Image optimization — explicit allowlist only (no wildcards)
   images: {
     remotePatterns: [
       {
         protocol: "https",
         hostname: "images.unsplash.com",
       },
-      {
-        protocol: "https",
-        hostname: "**",
-      },
     ],
-    // Disable image optimization if using external CDN
-    // unoptimized: true,
   },
 
   // Environment variables
@@ -38,7 +18,7 @@ const nextConfig = {
     NEXT_PUBLIC_APP_PORT: "6095",
   },
 
-  // Headers for security
+  // Security headers
   async headers() {
     return [
       {
@@ -54,7 +34,30 @@ const nextConfig = {
           },
           {
             key: "Referrer-Policy",
-            value: "origin-when-cross-origin",
+            value: "strict-origin-when-cross-origin",
+          },
+          {
+            key: "Permissions-Policy",
+            value: "camera=(), microphone=(), geolocation=()",
+          },
+          {
+            key: "Strict-Transport-Security",
+            value: "max-age=31536000; includeSubDomains; preload",
+          },
+          {
+            key: "Content-Security-Policy",
+            value: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-inline'",
+              "style-src 'self' 'unsafe-inline'",
+              "img-src 'self' data: https:",
+              "font-src 'self' data: https://fonts.gstatic.com",
+              "connect-src 'self' https:",
+              "frame-src 'none'",
+              "object-src 'none'",
+              "base-uri 'self'",
+              "form-action 'self'",
+            ].join("; "),
           },
         ],
       },

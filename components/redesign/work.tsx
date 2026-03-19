@@ -4,7 +4,7 @@ import { motion, useInView } from "framer-motion"
 import { useRef, useState } from "react"
 import Image from "next/image"
 
-const ease = [0.25, 1, 0.5, 1]
+const ease: [number, number, number, number] = [0.25, 1, 0.5, 1]
 
 interface Project {
   id: number

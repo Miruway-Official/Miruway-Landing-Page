@@ -3,7 +3,7 @@
 import { motion, useInView } from "framer-motion"
 import { useRef } from "react"
 
-const ease = [0.25, 1, 0.5, 1]
+const ease: [number, number, number, number] = [0.25, 1, 0.5, 1]
 
 const links = [
   { label: "GitHub", href: "https://github.com" },
