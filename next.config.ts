@@ -1,6 +1,4 @@
 const nextConfig = {
-  // Enable standalone output for Docker
-  output: "standalone",
 
   // Image optimization — explicit allowlist only (no wildcards)
   images: {
@@ -64,16 +62,6 @@ const nextConfig = {
     ];
   },
 
-  // Redirects (optional)
-  async redirects() {
-    return [];
-  },
-
-  // Rewrites (optional)
-  async rewrites() {
-    return [];
-  },
-
   // Disable powered by header
   poweredByHeader: false,
 
@@ -82,7 +70,6 @@ const nextConfig = {
 
   // Compiler options
   compiler: {
-    // Remove console.log in production
     removeConsole: process.env.NODE_ENV === "production",
   },
 };
