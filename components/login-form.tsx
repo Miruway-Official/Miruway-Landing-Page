@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input"
 import Link from "next/link"
 import { motion } from "framer-motion"
 
-const ease = [0.25, 1, 0.5, 1] // ease-out-quart — same as homepage hero
+const ease: [number, number, number, number] = [0.25, 1, 0.5, 1] // ease-out-quart — same as homepage hero
 
 export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
   return (

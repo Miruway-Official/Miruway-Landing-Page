@@ -15,10 +15,8 @@ export async function GET() {
       unit: 'MB'
     },
     env_check: {
-      API_URL_AUTH: process.env.API_URL_AUTH ? '✓ Set' : '✗ Missing',
-      FRONTEND_URL: process.env.FRONTEND_URL ? '✓ Set' : '✗ Missing',
-      API_URL_AUTH_value: process.env.API_URL_AUTH || 'NOT_SET',
-      FRONTEND_URL_value: process.env.FRONTEND_URL || 'NOT_SET'
+      API_URL_AUTH: process.env.API_URL_AUTH ? 'set' : 'missing',
+      FRONTEND_URL: process.env.FRONTEND_URL ? 'set' : 'missing'
     }
   };
 

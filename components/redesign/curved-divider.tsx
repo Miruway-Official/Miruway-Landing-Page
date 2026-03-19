@@ -6,7 +6,7 @@ import { useRef } from "react"
 
 const CurvedLoop = dynamic(() => import("@/components/CurvedLoop"), { ssr: false })
 
-const ease = [0.25, 1, 0.5, 1]
+const ease: [number, number, number, number] = [0.25, 1, 0.5, 1]
 
 export function CurvedDivider() {
   const ref = useRef(null)
