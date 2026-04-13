@@ -14,6 +14,8 @@ interface Project {
   image: string
   tags: string[]
   year: string
+  url?: string
+  github?: string
 }
 
 const projects: Project[] = [
@@ -52,6 +54,8 @@ const projects: Project[] = [
     image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&q=80",
     tags: ["Next.js 14", "Real-time", "TypeScript"],
     year: "2024",
+    url: "https://miruway-bordgame-coup.vercel.app",
+    github: "https://github.com/Miruway-Official/Miruway-Bordgame-Coup",
   },
 ]
 
@@ -68,17 +72,25 @@ function ProjectRow({ project, index }: { project: Project; index: number }) {
       transition={{ duration: 0.7, ease, delay: index * 0.08 }}
     >
       <a
-        href="#"
+        href={project.url ?? (project.github ?? "#")}
+        target={project.url || project.github ? "_blank" : undefined}
+        rel={project.url || project.github ? "noopener noreferrer" : undefined}
         className="group block py-8 md:py-10 border-b border-border"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
         <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-0">
-          {/* Title */}
-          <div className="md:flex-1">
+          {/* Title + live indicator */}
+          <div className="md:flex-1 flex items-center gap-3">
             <h3 className="font-heading text-xl md:text-2xl font-semibold text-foreground group-hover:text-[#A855F7] transition-colors duration-400">
               {project.title}
             </h3>
+            {project.url && (
+              <span className="hidden md:inline-flex items-center gap-1 text-[0.7rem] text-[#A855F7] border border-[#A855F7]/30 px-2 py-0.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#A855F7] animate-pulse" />
+                Live
+              </span>
+            )}
           </div>
 
           {/* Category */}
