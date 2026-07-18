@@ -20,7 +20,7 @@ export function ContactRedesign() {
           className="flex items-center gap-4 mb-16 md:mb-24"
         >
           <span className="text-[0.75rem] text-muted-foreground tracking-wider uppercase">
-            03
+            04
           </span>
           <div className="separator flex-1" />
           <span className="text-[0.75rem] text-muted-foreground tracking-wider uppercase">

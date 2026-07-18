@@ -37,6 +37,7 @@ export function NavbarRedesign() {
           {[
             { label: "About", id: "about" },
             { label: "Work", id: "work" },
+            { label: "Code", id: "open-source" },
             { label: "Contact", id: "contact" },
           ].map((item) => (
             <button

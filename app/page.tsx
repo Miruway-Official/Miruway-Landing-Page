@@ -7,6 +7,7 @@ import { HeroRedesign } from "@/components/redesign/hero"
 import { LogoMarquee } from "@/components/redesign/logo-marquee"
 import { AboutRedesign } from "@/components/redesign/about"
 import { WorkRedesign } from "@/components/redesign/work"
+import { OpenSourceRedesign } from "@/components/redesign/open-source"
 import { CurvedDivider } from "@/components/redesign/curved-divider"
 import { ContactRedesign } from "@/components/redesign/contact"
 import { FooterRedesign } from "@/components/redesign/footer"
@@ -41,6 +42,7 @@ export default function Home() {
           <LogoMarquee />
           <AboutRedesign />
           <WorkRedesign />
+          <OpenSourceRedesign />
           <CurvedDivider />
           <ContactRedesign />
         </main>
