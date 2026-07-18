@@ -6,7 +6,7 @@ import { useRef } from "react"
 const ease: [number, number, number, number] = [0.25, 1, 0.5, 1]
 
 const links = [
-  { label: "GitHub", href: "https://github.com" },
+  { label: "GitHub", href: "https://github.com/NesJaaTH" },
   { label: "LinkedIn", href: "https://linkedin.com" },
   { label: "Email", href: "mailto:hello@nesjaa.dev" },
 ]
